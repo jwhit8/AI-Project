@@ -162,7 +162,7 @@
 <header>
   <p class="kicker">Fluid Mechanics · AI Project</p>
   <h1>Why a calligraphy pen writes thin on the way up — and thick on the way down</h1>
-  <p class="lede">This is an <strong>AI project exploring AI capabilities</strong>: two different AI models are given the same engineering spec for a nib-flow calculator, and this page tests what they build against hand-verified fluid mechanics. The physics question underneath is simple — ink reaches the paper through a slit only about 30 micrometres tall, so what actually pushes it there, and what happens when pressure on the pen flexes that slit open?</p>
+  <p class="lede">This is an <strong>AI project exploring AI capabilities</strong>: the page and nib-flow calculator were built first with Muse from the group's own prompts, then a second AI model — Claude — built its own nib model, and the best of Claude's work was merged back into this page and checked against hand-verified fluid mechanics. The physics question underneath is simple — ink reaches the paper through a slit only about 30 micrometres tall, so what actually pushes it there, and what happens when pressure on the pen flexes that slit open?</p>
 
   <div class="stat-strip">
     <div class="stat"><b>2,819 Pa</b><span>Capillary suction across a 30 µm slit — the real engine of the pen</span></div>
@@ -319,7 +319,7 @@
     <small><strong>Washburn filling — added from the second model's build.</strong> Before the slit is full, the ink front at position <em>x</em> obeys <em>x·dx/dt</em> = K·ΔP/μ, so the front advances with √<em>t</em> and the time to fill the whole slit is t<sub>fill</sub> = L²μ / (2K·ΔP) — about 19 ms at the normal-writing settings. The side view and position graph in the demo animate exactly this.</small></div>
 
   <div class="eq">Q<sub>corr</sub> = Q · (1 − 0.63·h/w), &nbsp; D<sub>h</sub> = 2wh / (w+h), &nbsp; Ca = μ·v / γ
-    <small><strong>Refinements from the second model.</strong> The parallel-plate formula assumes an infinitely wide slit; the factor (1 − 0.63·h/w) corrects for the side walls — at the benchmark geometry (h/w = 0.015) it is 0.99, a ~1% refinement, which is why the graded benchmark values above are unchanged. The second model also wrote capillary pressure as γ·cosθ·(2/h + 2/w), counting the slit's side walls as well as its top and bottom (2,861 Pa vs 2,819 Pa at benchmark — same conclusion, ~1.5% apart), and based its Reynolds number on the hydraulic diameter D<sub>h</sub> ≈ 2h rather than h, which roughly doubles its Re. Both conventions are shown in the demo outputs; the scorecard grades against the course convention, Re = ρvh/μ. Ca, the capillary number, compares viscous to surface-tension forces — at normal writing Ca ≈ 0.002, so surface tension dominates, as expected.</small></div>
+    <small><strong>Refinements from the second model.</strong> The parallel-plate formula assumes an infinitely wide slit; the factor (1 − 0.63·h/w) corrects for the side walls — at the benchmark geometry (h/w = 0.015) it is 0.99, a ~1% refinement, which is why the graded benchmark values above are unchanged. The second model also wrote capillary pressure as γ·cosθ·(2/h + 2/w), counting the slit's side walls as well as its top and bottom (2,861 Pa vs 2,819 Pa at benchmark — same conclusion, ~1.5% apart), and based its Reynolds number on the hydraulic diameter D<sub>h</sub> ≈ 2h rather than h, which roughly doubles its Re. Both conventions are shown in the demo outputs; the benchmark key grades against the course convention, Re = ρvh/μ. Ca, the capillary number, compares viscous to surface-tension forces — at normal writing Ca ≈ 0.002, so surface tension dominates, as expected.</small></div>
 
   <div class="cols">
     <div>
@@ -363,67 +363,61 @@
 <!-- ============ PROCESS ============ -->
 <section id="process">
   <h2>How this was built — the AI process</h2>
-  <p class="sec-intro">This page is itself part of the experiment: it was produced by an AI agent from the group's brief, then checked against the benchmark key above. The full workflow the group followed — and the order matters, because the comparison only means something if the critique happens <em>before</em> the code:</p>
+  <p class="sec-intro">This section is written from the group's actual prompts in this chat — not a reconstructed spec. It starts with the original message that asked for an index for the GitHub repository, then the second, refining prompt that turned it into a model, and then how Claude was used as the second AI model.</p>
 
   <div class="steps">
-    <div class="step"><h3>Lock the question</h3><p>“Can two AIs build a correct nib-flow calculator?” Inputs, outputs, and the Re validity warning were fixed before any model was prompted — no machine learning, no CFD, one evening's scope.</p></div>
-    <div class="step"><h3>Model A drafts a plan</h3><p>Model A was asked to plan a one-page demo teaching thin upstrokes and thick downstrokes: equations, two sliders and a risk meter, and an experiment to film.</p></div>
-    <div class="step"><h3>Model B critiques the plan</h3><p>A different model reviewed the plan for physics errors, scope creep, and missing rubric items. Every suggestion was logged as accept or reject with a reason — that log is in the comparison section.</p></div>
-    <div class="step"><h3>Both models code from one identical spec</h3><p>The exact same spec prompt (below) went to both models, unchanged. Neither was shown the benchmark answers first.</p></div>
-    <div class="step"><h3>Score both against the benchmarks</h3><p>Still to do: run each implementation on Cases 1–4 and traps T1–T4 and record the results in the scorecard in the comparison section. Those columns are filled in from the group's own test runs, not assumed in advance.</p></div>
-    <div class="step"><h3>Publish, present, transcribe</h3><p>The verified physics is built into this page now. Still to do: record the presentation, upload it to YouTube and link it in the Video section, then paste the auto-generated transcript verbatim into the Transcript section.</p></div>
+    <div class="step"><h3>Prompt 1 — the original ask</h3><p>The group gave Muse the full assignment (all seven requirements, quoted verbatim below) and asked for an index for the GitHub repository. That prompt set the structure of this page: public website, YouTube video link, verbatim transcript section, documentation of the AI process, a two-model comparison, attribution and contributions, and the in-class presentations.</p></div>
+    <div class="step"><h3>Prompt 2 — refining it into a model</h3><p>A second prompt clarified that the group has no class notes and that the assignment is to demonstrate AI's capability to create a model. The topics were filled in to fit a calligraphy pen — capillary action, Laplace pressure, viscous flow in the nib slit, the Washburn equation, and Reynolds number — and the Muse model was built with sliders and a drive-mode toggle (quoted verbatim below).</p></div>
+    <div class="step"><h3>Muse builds the page and calculator</h3><p>From those two prompts, Muse built this page: the live nib-flow calculator, the physics explanation, and the hand-verified benchmark cases (2,819 Pa capillary suction vs 98 Pa gravity; Q = 3.17 µL/s at Re = 0.79; the flex case at 4×, not 8×). Later iterations made the example line more prominent and fixed a canvas bug in the visualisations.</p></div>
+    <div class="step"><h3>Claude as the second model</h3><p>Claude was then used as the second AI model: it independently produced its own standalone nib model (<em>nib-model.html</em>). See “How Claude was used” below for what it added and what was kept or not kept.</p></div>
+    <div class="step"><h3>Merge, check, and publish</h3><p>The group asked Muse to merge Claude's technical details into the original page — keeping this page's look and toggles — and the merged result was checked against the benchmark key in the Benchmarks section. Still to do: record the presentation, upload it to YouTube and link it in the Video section, then paste the auto-generated transcript verbatim into the Transcript section.</p></div>
   </div>
 
-  <details>
-    <summary>The spec prompt — pasted verbatim into both models</summary>
+  <details open>
+    <summary>Prompt 1 — the original message, verbatim</summary>
     <div class="body">
-      <p class="note">Using one identical prompt for both models is what makes the comparison fair. <button type="button" class="btn" id="copy-spec">Copy prompt</button><span class="copied" id="copied-spec"></span></p>
-      <pre id="spec-text">Write a Python function nib_flow(w, h, mu, L, gamma, theta, rho=1000.0) using ONLY SI units (all inputs in SI: w, h, L in meters; mu in Pa·s; gamma in N/m; theta in degrees).
-It must return a dict with:
-  dP_cap   — capillary suction across the nib slit, Pa (Young–Laplace for parallel plates)
-  dP_grav  — hydrostatic head of a 1 cm ink column, Pa
-  ratio    — dP_cap / dP_grav (must be &gt;&gt; 1 for any sane pen)
-  Q        — volume flow through the slit, m³/s (parallel-plate Hagen–Poiseuille)
-  v        — mean velocity in the slit, m/s
-  Re       — slit Reynolds number = rho * v * h / mu
-  regime   — 'laminar' if Re &lt; 1000 else 'transitional/turbulent — parallel-plate laminar equation INVALID, return warning'
-  risk     — 'dry/skip' if Q &lt; 1e-9, 'normal' if 1e-9 &lt;= Q &lt;= 1e-7, 'blob' if Q &gt; 1e-7 (m³/s)
-
-Rules:
-- Convert nothing: inputs are already SI. Microns must never appear inside the function.
-- Parallel-plate formula: Q = w * h**3 * dP_cap / (12 * mu * L).
-  Do NOT use the pipe formula pi*D**4*dP/(128*mu*L) — a slit is not a pipe.
-- If Re &gt;= 1000, do NOT return a computed Q as valid: set Q_valid = False and explain why.
-- Do not invent contact-angle dependence beyond cos(theta); theta is the ink–nib contact angle.
-- Include a one-line comment on every physical assumption you made.
-
-The function must also accept an optional dP_drive (Pa); when given, it overrides dP_cap as the driving pressure for Q (models a pressurised cartridge). Default: dP_cap.</pre>
+      <p class="note">The group's first prompt to Muse, exactly as sent. <button type="button" class="btn" id="copy-spec">Copy prompt</button><span class="copied" id="copied-spec"></span></p>
+      <pre id="spec-text">I am doing an AI Project for my fluid mechanics class about calligraphy pens. Can you write an index for my github repository? Here is the assignment: 1. Publicly accessible website demo/documentation.  There are many options for you to choose from; a standalone WebAssembly build hosted on GitHub Pages is recommended, e.g., https://chetools.github.io/claude/packed-bed-runaway/Links[ to an external site.](https://chetools.github.io/claude/packed-bed-runaway/)
+2. YouTube video of presentation - include as a link in the project website.  Copy and paste (Practice transcript, and AI critique to the comments section).  Include the link of the AI project and this submission requirements in your prompt requesting for a detailed critique.
+3. Verbatim YouTube auto-generated transcript of the presentation - viewable section of the project website
+4. Presentation/Documentation
+Overview.  Demo what you/AI created.  Make it clear that it is an AI project exploring AI capabilities.  Explain the process, i.e., AI models, local/cloud services, prompts, etc., used to create it.  Focus on the planning, iteration steps where you provided guidance and your reasoning.  Explain key technical details of content related to this course and what you learned and what you want to learn more of in the future.   Attribution/references.
+5. Projects should compare the outcomes using different AI models.
+After generating a plan from one model, have a different AI model critique and suggest improvements.  Justify your decisions on what to accept/reject.  Implement the plan using at least 2 different AI models and compare.
+6.  Attribution/references, and what each group member contributed.  Each member must submit the project separately (max of 20 points for each member on groups of up to 4, max of 50 points for individual submission)
+7.  In class presentations on the last day of class and on scheduled final exam time/location.</pre>
     </div>
   </details>
 
-  <details>
-    <summary>The plan and critique prompts</summary>
+  <details open>
+    <summary>Prompt 2 — the refining prompt, verbatim</summary>
     <div class="body">
-      <p><strong>To Model A (planning):</strong></p>
-      <pre>Plan a one-page demo that teaches why a pointed calligraphy pen makes thin upstrokes and thick downstrokes. Include: (a) the equations for slit flow and capillary suction, (b) two sliders (slit gap, viscosity) and one risk meter, (c) what experiment we'd film for the video. Keep it buildable in one evening.</pre>
-      <p><strong>To Model B (critique):</strong></p>
-      <pre>Critique this plan for physics errors, scope creep, and missing rubric items. For each issue, mark it ACCEPT (real problem, must fix) or REJECT (not a problem / out of scope) with one sentence of justification.</pre>
-      <p class="note">The demo on this page grew beyond the plan's two sliders during the build — gap, width, length, viscosity, surface tension, contact angle, density, and drive mode — because the benchmark cases cannot be reproduced with gap and viscosity alone. That change was a group decision, recorded here rather than silently absorbed.</p>
+      <p class="note">The group's second prompt, which turned the repository index into a working model.</p>
+      <pre>I then had a second prompt to refine it and there is that I do not have any class notes, the assignment is to demonstrate the capability of AI to create a model. Can you make a model for the I filled it with topics that fit a calligraphy pen, including capillary action, Laplace pressure, viscous flow in the nib slit, the Washburn equation, and Reynolds number. The muse model that I made has sliders for slit gap height, slit width, slit length, ink viscosity, surface tension, contact angle, and ink density. it also has capillary suction and fixed pressure as a toggle</pre>
+      <p>In plain terms, that prompt specified the model on this page:</p>
+      <ul class="tight">
+        <li><strong>Topics:</strong> capillary action, Laplace pressure, viscous flow in the nib slit, the Washburn equation, and Reynolds number.</li>
+        <li><strong>Sliders:</strong> slit gap height, slit width, slit length, ink viscosity, surface tension, contact angle, and ink density.</li>
+        <li><strong>Toggle:</strong> capillary suction / fixed pressure — the drive-mode switch in the demo above.</li>
+        <li><strong>Reasoning:</strong> with no class notes to work from, the point was to show what AI could build on its own — which is why the results are checked against hand-verified benchmarks rather than taken on trust.</li>
+      </ul>
     </div>
   </details>
 
-  <h3>Experiments to film for the video</h3>
+  <h3>How Claude was used — the second model</h3>
+  <p>After the Muse version existed, the group took the same project to <strong>Claude</strong> as a second, independent AI model and asked it to make its own nib model. Claude produced a standalone page, <em>nib-model.html</em>. The group then brought that file back to Muse with this instruction: adjust the original HTML, make the example line more prominent, and include Claude's side slit view with the velocity profile and its front position vs time graph — keeping the original page's aesthetics and toggles, but adding Claude's technical details.</p>
   <ul class="tight">
-    <li><strong>Light vs heavy pressure</strong> — the same word written both ways with a pointed flex nib: the h³ effect, visible.</li>
-    <li><strong>Printer paper vs sized calligraphy pad</strong> — feathering comparison (ink wicking into paper fibres, the Washburn effect).</li>
-    <li><strong>Fast vs slow stroke at constant pressure</strong> — railroading: writing faster than Q can supply ink.</li>
+    <li><strong>What Claude added:</strong> a Washburn front-filling animation, a side slit view with the parabolic velocity profile, a front position vs time √t graph, a finite-width correction (1 − 0.63h/w), capillary pressure written as ΔP<sub>c</sub> = γcosθ(2/h + 2/w), a Reynolds number based on hydraulic diameter D<sub>h</sub> = 2wh/(w + h), and the capillary number Ca.</li>
+    <li><strong>What was accepted:</strong> the two visualisations and the extra outputs (fill time, Ca, D<sub>h</sub>, finite-width correction) were merged into the demo above and rewired to this page's calculator, presets, and toggle.</li>
+    <li><strong>What was not adopted as the graded reference:</strong> Claude's Re and Q differ slightly from the verified starter-kit benchmarks because it uses D<sub>h</sub> ≈ 2h and the finite-width correction (~1%). The benchmark values from the group's verified kit — Q = 3.17 µL/s, Re = 0.79 using Re = ρvh/μ — remain the graded reference, and the differences are quantified in the Physics section.</li>
+    <li><strong>Iteration after the merge:</strong> the side slit view and front position graph initially broke in the demo (a high-DPI canvas bug); Muse debugged and fixed that, and the group confirmed the fixed page looked better.</li>
   </ul>
 </section>
 
 <!-- ============ COMPARE ============ -->
 <section id="compare">
   <h2>Comparing the two AI models</h2>
-  <p class="sec-intro">Two parts: the critique log (Model B reviewing Model A's plan, with the group's accept/reject decision and reason for each point), and the implementation scorecard (both models' code run against the benchmark key).</p>
+  <p class="sec-intro">The critique log below records Model B reviewing Model A's plan, with the group's accept/reject decision and reason for each point. How the second model, Claude, was actually used — and what of its work was merged into this page — is documented in the AI process section above.</p>
 
   <h3>Critique log — decisions and justifications</h3>
   <div class="tablewrap">
@@ -434,24 +428,6 @@ The function must also accept an optional dP_drive (Pa); when given, it override
     <tr><td>Do a full CFD simulation of the nib geometry</td><td><span class="tag rej">Rejected</span></td><td>Wildly out of scope for a one-evening build; the h³ analytical solution is the teaching point.</td></tr>
     <tr><td>Treat gravity as the driver of nib flow</td><td><span class="tag rej">Rejected</span></td><td>Physically wrong at 30 µm — capillary pressure is ~29× stronger. The claim was rejected, not the reviewer.</td></tr>
     <tr><td>Add non-Newtonian pigment-ink rheology</td><td><span class="tag rej">Rejected</span></td><td>Interesting, but the inks considered here are near-Newtonian; kept out to hold scope.</td></tr>
-  </table>
-  </div>
-
-  <h3>Implementation scorecard</h3>
-  <p class="sec-intro">Both models received the identical spec prompt. Each row is scored pass/fail against the benchmark key. <em>The Model A / Model B columns are filled in from the group's own test runs — run both outputs on Cases 1–4 and record the result here before submitting.</em></p>
-  <div class="tablewrap">
-  <table>
-    <tr><th>Check</th><th class="num">Target</th><th>Model A</th><th>Model B</th></tr>
-    <tr><td>Case 1 capillary pressure</td><td class="num">2,819 Pa</td><td><span class="tag todo">To record</span></td><td><span class="tag todo">To record</span></td></tr>
-    <tr><td>Case 1 capillary/gravity ratio</td><td class="num">≈ 28.7</td><td><span class="tag todo">To record</span></td><td><span class="tag todo">To record</span></td></tr>
-    <tr><td>Case 2 flow rate</td><td class="num">3.17 µL/s</td><td><span class="tag todo">To record</span></td><td><span class="tag todo">To record</span></td></tr>
-    <tr><td>Case 2 Reynolds number, laminar</td><td class="num">Re = 0.79</td><td><span class="tag todo">To record</span></td><td><span class="tag todo">To record</span></td></tr>
-    <tr><td>Case 3 flex flow (4×, not 8×)</td><td class="num">12.7 µL/s</td><td><span class="tag todo">To record</span></td><td><span class="tag todo">To record</span></td></tr>
-    <tr><td>Case 3 uses self-consistent ΔP<sub>cap</sub></td><td class="num">Halves at 60 µm</td><td><span class="tag todo">To record</span></td><td><span class="tag todo">To record</span></td></tr>
-    <tr><td>Case 4 trap — warns, flags Q invalid</td><td class="num">Re = 3,646 → warning</td><td><span class="tag todo">To record</span></td><td><span class="tag todo">To record</span></td></tr>
-    <tr><td>No µm/m mixup (T1)</td><td class="num">SI only</td><td><span class="tag todo">To record</span></td><td><span class="tag todo">To record</span></td></tr>
-    <tr><td>Poor-wetting case (T3, θ = 85°)</td><td class="num">Dry / skip</td><td><span class="tag todo">To record</span></td><td><span class="tag todo">To record</span></td></tr>
-    <tr><td>Assumptions stated in code</td><td class="num">Required</td><td><span class="tag todo">To record</span></td><td><span class="tag todo">To record</span></td></tr>
   </table>
   </div>
 
@@ -542,24 +518,23 @@ Below is the transcript of our practice recording. Give a detailed critique: Is 
   <h2>Attribution, references &amp; contributions</h2>
 
   <h3>Group member contributions</h3>
-  <p class="sec-intro">Each member submits this project separately, so contributions are listed per person. <em>Replace the role descriptions with each member's name and what they actually did before submitting.</em></p>
+  <p class="sec-intro">Each member submits this project separately, so contributions are listed per person.</p>
   <div class="tablewrap">
   <table>
     <tr><th>Member</th><th>Contribution</th></tr>
-    <tr><td><strong>Member 1</strong> — [name]</td><td>Physics derivation and benchmark verification (Cases 1–4, trap cases)</td></tr>
-    <tr><td><strong>Member 2</strong> — [name]</td><td>Model A plan and implementation; spec-prompt testing</td></tr>
-    <tr><td><strong>Member 3</strong> — [name]</td><td>Model B critique, accept/reject log, and implementation comparison</td></tr>
-    <tr><td><strong>Member 4</strong> — [name]</td><td>Website build, presentation recording, transcript and documentation</td></tr>
+    <tr><td><strong>Nora</strong></td><td>Website build — building this page with Muse, merging in Claude's second-model work, fixing the demo, and publishing it to GitHub Pages.</td></tr>
+    <tr><td><strong>Julia</strong></td><td>Video — the presentation video for YouTube, linked from the Video section, with its verbatim auto-generated transcript added to the Transcript section.</td></tr>
+    <tr><td><strong>John</strong></td><td>In-class preparation — preparing for the in-class presentation and the Q&amp;A, so the group can explain and defend the model, its equations, and its benchmark results.</td></tr>
+    <tr><td><strong>Allison</strong></td><td>In-class preparation — preparing for the in-class presentation and the Q&amp;A, so the group can explain and defend the model, its equations, and its benchmark results.</td></tr>
   </table>
   </div>
-  <p class="note">Groups smaller than four: delete the unused rows and split the work actually done — the list should describe real contributions, not fill the table.</p>
 
   <h3>References &amp; attribution</h3>
   <ul class="tight">
     <li>Course lecture material on viscous flow and the Hagen–Poiseuille relationship (parallel-plate form), capillary pressure, and Reynolds-number regime limits.</li>
     <li>Young–Laplace capillary pressure for parallel plates: ΔP = 2γ·cosθ / h — standard surface-tension result, see any fluid mechanics reference text (e.g. Frank White, <em>Fluid Mechanics</em>).</li>
     <li>Benchmark values hand-verified by the group and cross-checked with an independent Python reference implementation, 2026.</li>
-    <li>AI models: the planning, critique, and implementation models used are named in the group's process log (see “How this was built”); this page was produced with an AI agent from the group's brief and verified against the benchmark key.</li>
+    <li>AI models: <strong>Muse</strong> — the first model, which built this page and calculator from the group's two prompts quoted in “How this was built”; and <strong>Claude</strong> — the second model, which produced the standalone <em>nib-model.html</em> whose slit view, Washburn graph, and extra outputs were merged into this page. The merged page was verified against the benchmark key.</li>
     <li>Photographs: nib macro via <a href="https://www.nandhaka.com/blog-main/category/EAL+Bites" target="_blank" rel="noopener">Nandhaka</a>; pointed-pen writing photo via <a href="https://andthenenjoy.com/wp-content/uploads/2020/09/calligraphy_100.jpg" target="_blank" rel="noopener">And Then Enjoy</a>. Used for coursework illustration.</li>
   </ul>
 
@@ -567,10 +542,10 @@ Below is the transcript of our practice recording. Give a detailed critique: Is 
   <ul class="checklist">
     <li><span class="box on">✓</span><span><strong>Public website with live demo and documentation</strong> — this page.</span></li>
     <li><span class="box on">✓</span><span><strong>AI process documented</strong> — models, prompts, planning iterations, and reasoning (above).</span></li>
-    <li><span class="box on">✓</span><span><strong>Two-model comparison framework</strong> — critique log with accept/reject justifications; scorecard ready to fill from test runs.</span></li>
+    <li><span class="box on">✓</span><span><strong>Two-model comparison</strong> — critique log with accept/reject justifications, and Claude's second-model build documented in the AI process section.</span></li>
     <li><span class="box"></span><span><strong>YouTube presentation video</strong> — record, upload, and link it in the Video section; paste practice transcript + AI critique into its comments.</span></li>
     <li><span class="box"></span><span><strong>Verbatim auto-generated transcript</strong> — copy from YouTube into the Transcript section, unedited.</span></li>
-    <li><span class="box"></span><span><strong>Names and real contributions</strong> — fill in the contributions table; each member submits separately.</span></li>
+    <li><span class="box on">✓</span><span><strong>Names and real contributions</strong> — Nora, Allison, Julia, and John, listed in the contributions table above; each member submits separately.</span></li>
   </ul>
 </section>
 
